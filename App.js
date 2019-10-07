@@ -14,6 +14,7 @@ export default class App extends Component {
         {text:'Run', checked: false}
     ],
       notetext: '',
+      id: '',
       change: 'flex',
     }
   }
@@ -69,6 +70,14 @@ export default class App extends Component {
     );
   }
   addTodo(){
+  if(this.state.id){
+    const array = [...this.state.data];
+    this.state.data[this.state.id] = ({
+      text: this.state.notetext,
+      checked: array[this.state.id].checked
+    })
+    this.setState({data: this.state.data})
+  }else{
     if(this.state.notetext){
       this.state.data.push({
         text: this.state.notetext,
@@ -77,6 +86,8 @@ export default class App extends Component {
       this.setState({data: this.state.data})
     }
     this.setState({notetext: ''})
+  }
+    
   }
   deleteTodo(index){
     this.state.data.splice(index, 1)
@@ -101,6 +112,7 @@ export default class App extends Component {
   editTodo(index){
     const array = [...this.state.data];
     this.setState({notetext : array[index].text})
+    this.setState({id: index})
   }
 }
 const styles = StyleSheet.create({
